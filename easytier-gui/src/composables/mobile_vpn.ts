@@ -126,6 +126,8 @@ async function onNetworkInstanceChange() {
     return
   }
 
+  const curNetwork = networkStore.curNetwork
+
   const virtual_ip = Utils.ipv4ToString(curNetworkInfo?.my_node_info?.virtual_ipv4.address)
   if (!virtual_ip || !virtual_ip.length) {
     await doStopVpn()
@@ -151,13 +153,15 @@ async function onNetworkInstanceChange() {
       console.error(e)
     }
 
-    try {
-      await doStartVpn(virtual_ip, 24, routes)
-    }
-    catch (e) {
-      console.error('start vpn service failed, clear all network insts.', e)
-      networkStore.clearNetworkInstances()
-      await retainNetworkInstance(networkStore.networkInstanceIds)
+    if (!curNetwork?.no_tun){
+      try {
+        await doStartVpn(virtual_ip, 24, routes)
+      }
+      catch (e) {
+        console.error('start vpn service failed, clear all network insts.', e)
+        networkStore.clearNetworkInstances()
+        await retainNetworkInstance(networkStore.networkInstanceIds)
+      }
     }
   }
 }
