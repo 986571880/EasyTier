@@ -18,6 +18,7 @@ export interface StartVpnRequest {
   dns?: string;
   disallowedApplications?: string[];
   mtu?: number;
+  dnsServers?: string[];
 }
 
 export async function prepare_vpn(): Promise<InvokeResponse | null> {

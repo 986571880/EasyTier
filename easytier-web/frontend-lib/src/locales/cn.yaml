@@ -95,6 +95,9 @@ no_tun_help: 不使用 TUN 网卡，适合无管理员权限时使用。本节�
 enable_exit_node: 启用出口节点
 enable_exit_node_help: 允许此节点成为出口节点
 
+mobile_vpn_dns_servers: DNS服务器
+mobile_vpn_dns_servers_help: 设置DNS服务器，例如：114.114.114.114
+
 relay_all_peer_rpc: 转发RPC包
 relay_all_peer_rpc_help: |
   允许转发所有对等节点的RPC数据包，即使对等节点不在转发网络白名单中。

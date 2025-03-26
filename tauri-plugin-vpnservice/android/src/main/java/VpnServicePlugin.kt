@@ -20,7 +20,7 @@ class PingArgs {
 class StartVpnArgs {
     var ipv4Addr: String? = null
     var routes: Array<String> = emptyArray()
-    var dns: String? = null
+    var dnsServers: Array<String> = emptyArray()
     var disallowedApplications: Array<String> = emptyArray()
     var mtu: Int? = null
 }
@@ -73,7 +73,7 @@ class VpnServicePlugin(private val activity: Activity) : Plugin(activity) {
             var intent = Intent(activity, TauriVpnService::class.java)
             intent.putExtra(TauriVpnService.IPV4_ADDR, args.ipv4Addr)
             intent.putExtra(TauriVpnService.ROUTES, args.routes)
-            intent.putExtra(TauriVpnService.DNS, args.dns)
+            intent.putExtra(TauriVpnService.DNS_SERVERS, args.dnsServers)
             intent.putExtra(TauriVpnService.DISALLOWED_APPLICATIONS, args.disallowedApplications)
             intent.putExtra(TauriVpnService.MTU, args.mtu)
 

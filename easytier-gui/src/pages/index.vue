@@ -354,7 +354,7 @@ function isRunning(id: string) {
         </StepList>
         <StepPanels value="1">
           <StepPanel v-slot="{ activateCallback = (s: string) => { } } = {}" value="1">
-            <Config :instance-id="networkStore.curNetworkId" :config-invalid="messageBarSeverity !== Severity.None"
+            <Config :instance-id="networkStore.curNetworkId" :config-invalid="messageBarSeverity !== Severity.None" :os-type="type()"
               :cur-network="curNetworkConfig" @run-network="runNetworkCb($event, () => activateCallback('2'))" />
           </StepPanel>
           <StepPanel v-slot="{ activateCallback = (s: string) => { } } = {}" value="2">

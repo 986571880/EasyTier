@@ -9,6 +9,7 @@ import { useI18n } from 'vue-i18n'
 const props = defineProps<{
   configInvalid?: boolean
   hostname?: string
+  osType?: string
 }>()
 
 defineEmits(['runNetwork'])
@@ -127,6 +128,14 @@ function searchExitNodesSuggestions(e: { query: string }) {
   const ret = []
   ret.push(e.query)
   exitNodesSuggestions.value = ret
+}
+
+const mobileVpnDnsServersSuggestions = ref([''])
+
+function searchMobileVpnDnsServersSuggestions(e: { query: string }) {
+  const ret = []
+  ret.push(e.query)
+  mobileVpnDnsServersSuggestions.value = ret
 }
 
 const whitelistSuggestions = ref([''])
@@ -385,6 +394,18 @@ const bool_flags: BoolFlag[] = [
                   <AutoComplete id="exit_nodes" v-model="curNetwork.exit_nodes"
                                 :placeholder="t('chips_placeholder', ['192.168.8.8'])" class="w-full" multiple fluid
                                 :suggestions="exitNodesSuggestions" @complete="searchExitNodesSuggestions" />
+                </div>
+              </div>
+
+              <div v-if="props.osType === 'android'" class="flex flex-row gap-x-9 flex-wrap w-full">
+                <div class="flex flex-col gap-2 grow p-fluid">
+                  <div class="flex">
+                    <label for="mobile_vpn_dns_servers">{{ t('mobile_vpn_dns_servers') }}</label>
+                    <span class="pi pi-question-circle ml-2 self-center" v-tooltip="t('mobile_vpn_dns_servers_help')"></span>
+                  </div>
+                  <AutoComplete id="mobile_vpn_dns_servers" v-model="curNetwork.mobile_vpn_dns_servers"
+                                :placeholder="t('chips_placeholder', ['114.114.114.114'])" class="w-full" multiple fluid
+                                :suggestions="mobileVpnDnsServersSuggestions" @complete="searchMobileVpnDnsServersSuggestions" />
                 </div>
               </div>
 

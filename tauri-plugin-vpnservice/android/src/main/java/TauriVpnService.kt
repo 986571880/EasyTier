@@ -17,7 +17,7 @@ class TauriVpnService : VpnService() {
 
         const val IPV4_ADDR = "IPV4_ADDR"
         const val ROUTES = "ROUTES"
-        const val DNS = "DNS"
+        const val DNS_SERVERS = "DNS_SERVERS"
         const val DISALLOWED_APPLICATIONS = "DISALLOWED_APPLICATIONS"
         const val MTU = "MTU"
     }
@@ -72,12 +72,12 @@ class TauriVpnService : VpnService() {
         
         var mtu = args?.getInt(MTU) ?: 1500
         var ipv4Addr = args?.getString(IPV4_ADDR) ?: "10.126.126.1/24"
-        var dns = args?.getString(DNS) ?: "114.114.114.114"
+        var dnsServers = args?.getStringArray(DNS_SERVERS) ?: emptyArray()
         var routes = args?.getStringArray(ROUTES) ?: emptyArray()
         var disallowedApplications = args?.getStringArray(DISALLOWED_APPLICATIONS) ?: emptyArray()
 
         println("vpn create vpn interface. mtu: $mtu, ipv4Addr: $ipv4Addr, dns:" +
-            "$dns, routes: ${java.util.Arrays.toString(routes)}," +
+            "${java.util.Arrays.toString(dnsServers)}, routes: ${java.util.Arrays.toString(routes)}," +
             "disallowedApplications:  ${java.util.Arrays.toString(disallowedApplications)}")
 
         val ipParts = ipv4Addr.split("/")
@@ -85,7 +85,14 @@ class TauriVpnService : VpnService() {
         builder.addAddress(ipParts[0], ipParts[1].toInt())
 
         builder.setMtu(mtu)
-        builder.addDnsServer(dns)
+
+        if (dnsServers.isEmpty()) {
+            builder.addDnsServer("114.114.114.114")
+        } else {
+            for (dns in dnsServers) {
+                builder.addDnsServer(dns)
+            }
+        }
 
         for (route in routes) {
             val ipParts = route.split("/")

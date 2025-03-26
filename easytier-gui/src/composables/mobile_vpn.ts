@@ -44,7 +44,7 @@ async function doStopVpn() {
   curVpnStatus.routes = []
 }
 
-async function doStartVpn(ipv4Addr: string, cidr: number, routes: string[]) {
+async function doStartVpn(ipv4Addr: string, cidr: number, routes: string[], dnsServers: string[]) {
   if (curVpnStatus.running) {
     return
   }
@@ -55,6 +55,7 @@ async function doStartVpn(ipv4Addr: string, cidr: number, routes: string[]) {
     routes,
     disallowedApplications: ['com.kkrainbow.easytier'],
     mtu: 1300,
+    dnsServers,
   })
   if (start_ret?.errorMsg?.length) {
     throw new Error(start_ret.errorMsg)
@@ -141,6 +142,8 @@ async function onNetworkInstanceChange() {
 
   const routes = getRoutesForVpn(curNetworkInfo?.routes)
 
+  const dns_servers = curNetwork?.mobile_vpn_dns_servers ?? []
+
   const ipChanged = virtual_ip !== curVpnStatus.ipv4Addr
   const routesChanged = JSON.stringify(routes) !== JSON.stringify(curVpnStatus.routes)
 
@@ -155,7 +158,7 @@ async function onNetworkInstanceChange() {
 
     if (!curNetwork?.no_tun){
       try {
-        await doStartVpn(virtual_ip, 24, routes)
+        await doStartVpn(virtual_ip, 24, routes, dns_servers)
       }
       catch (e) {
         console.error('start vpn service failed, clear all network insts.', e)

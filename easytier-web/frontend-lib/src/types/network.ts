@@ -62,6 +62,8 @@ export interface NetworkConfig {
 
   mtu: number | null
   mapped_listeners: string[]
+
+  mobile_vpn_dns_servers: string[]
 }
 
 export function DEFAULT_NETWORK_CONFIG(): NetworkConfig {
@@ -118,6 +120,8 @@ export function DEFAULT_NETWORK_CONFIG(): NetworkConfig {
     socks5_port: 1080,
     mtu: null,
     mapped_listeners: [],
+
+    mobile_vpn_dns_servers: [],
   }
 }
 

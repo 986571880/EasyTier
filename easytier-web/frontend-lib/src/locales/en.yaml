@@ -128,6 +128,10 @@ socks5_help: |
 exit_nodes: Exit Nodes
 exit_nodes_help: Exit nodes to forward all traffic to, a virtual ipv4 address, priority is determined by the order of the list
 
+mobile_vpn_dns_servers: DNS Servers
+mobile_vpn_dns_servers_help: |
+  Set DNS Servers, e.g.: 114.114.114.114
+
 mtu: MTU
 mtu_help: |
   MTU of the TUN device, default is 1380 for non-encryption, 1360 for encryption. Range:400-1380
