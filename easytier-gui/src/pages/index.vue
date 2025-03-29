@@ -102,7 +102,9 @@ networkStore.$subscribe(async () => {
 
 async function runNetworkCb(cfg: NetworkTypes.NetworkConfig, cb: () => void) {
   if (type() === 'android') {
-    await prepareVpnService()
+    if (!networkStore.curNetwork?.no_tun) {
+        await prepareVpnService()
+    }
     networkStore.clearNetworkInstances()
   }
   else {
@@ -249,7 +251,7 @@ onBeforeMount(async () => {
 })
 
 onMounted(async () => {
-  if (type() === 'android') {
+  if (type() === 'android' && !networkStore.curNetwork?.no_tun) {
     try {
       await initMobileVpnService()
       console.error("easytier init vpn service done")
